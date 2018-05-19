@@ -14,6 +14,9 @@
 		969FC33A20AE3B0000EAC0F0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 969FC33820AE3B0000EAC0F0 /* LaunchScreen.storyboard */; };
 		969FC34520AE3B0100EAC0F0 /* MVVMTableViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 969FC34420AE3B0100EAC0F0 /* MVVMTableViewTests.swift */; };
 		969FC35020AE3B0100EAC0F0 /* MVVMTableViewUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 969FC34F20AE3B0100EAC0F0 /* MVVMTableViewUITests.swift */; };
+		969FC35E20AE3DBE00EAC0F0 /* TodoVIewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 969FC35D20AE3DBE00EAC0F0 /* TodoVIewModel.swift */; };
+		969FC36120AE3FE900EAC0F0 /* TodoItemTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 969FC35F20AE3FE900EAC0F0 /* TodoItemTableViewCell.swift */; };
+		969FC36220AE3FE900EAC0F0 /* TodoItemTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 969FC36020AE3FE900EAC0F0 /* TodoItemTableViewCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +50,9 @@
 		969FC34B20AE3B0100EAC0F0 /* MVVMTableViewUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MVVMTableViewUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		969FC34F20AE3B0100EAC0F0 /* MVVMTableViewUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MVVMTableViewUITests.swift; sourceTree = "<group>"; };
 		969FC35120AE3B0100EAC0F0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		969FC35D20AE3DBE00EAC0F0 /* TodoVIewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoVIewModel.swift; sourceTree = "<group>"; };
+		969FC35F20AE3FE900EAC0F0 /* TodoItemTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoItemTableViewCell.swift; sourceTree = "<group>"; };
+		969FC36020AE3FE900EAC0F0 /* TodoItemTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TodoItemTableViewCell.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,6 +109,9 @@
 				969FC33620AE3B0000EAC0F0 /* Assets.xcassets */,
 				969FC33820AE3B0000EAC0F0 /* LaunchScreen.storyboard */,
 				969FC33B20AE3B0000EAC0F0 /* Info.plist */,
+				969FC35D20AE3DBE00EAC0F0 /* TodoVIewModel.swift */,
+				969FC35F20AE3FE900EAC0F0 /* TodoItemTableViewCell.swift */,
+				969FC36020AE3FE900EAC0F0 /* TodoItemTableViewCell.xib */,
 			);
 			path = MVVMTableView;
 			sourceTree = "<group>";
@@ -231,6 +240,7 @@
 			files = (
 				969FC33A20AE3B0000EAC0F0 /* LaunchScreen.storyboard in Resources */,
 				969FC33720AE3B0000EAC0F0 /* Assets.xcassets in Resources */,
+				969FC36220AE3FE900EAC0F0 /* TodoItemTableViewCell.xib in Resources */,
 				969FC33520AE3AFF00EAC0F0 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -258,6 +268,8 @@
 			files = (
 				969FC33220AE3AFF00EAC0F0 /* ViewController.swift in Sources */,
 				969FC33020AE3AFF00EAC0F0 /* AppDelegate.swift in Sources */,
+				969FC36120AE3FE900EAC0F0 /* TodoItemTableViewCell.swift in Sources */,
+				969FC35E20AE3DBE00EAC0F0 /* TodoVIewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
