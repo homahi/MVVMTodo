@@ -101,7 +101,7 @@ class TodoViewModel: TodoViewPresentable {
         self.view = view
         let item1 = TodoItemViewModel(id: "1", textValue: "Washing Clothes", parentViewModel:self)
         let item2 = TodoItemViewModel(id: "2", textValue: "Buy Groceries", parentViewModel:self)
-        let item3 = TodoItemViewModel(id: "2", textValue: "Wash Car", parentViewModel:self)
+        let item3 = TodoItemViewModel(id: "3", textValue: "Wash Car", parentViewModel:self)
         items.append(contentsOf: [item1, item2, item3])
     }
 }
@@ -123,7 +123,18 @@ extension TodoViewModel: TodoViewDelegate {
             doneMenuItem.title = nextStatus ? "Undone" : "Done"
         }
         
-        self.view?.updateTodoItem(at: index)
+        self.items.sort(by: {
+            if !($0.isDone!) && !($1.isDone!) {
+                return $0.id! < $01.id!
+            }
+            if $0.isDone! && $1.isDone! {
+                return $0.id! < $01.id!
+            }
+            return !($0.isDone!) && $1.isDone!
+        })
+
+        
+        self.view?.reloadItems()
     }
     
     func onAddTodoItem() {
