@@ -53,12 +53,14 @@ protocol TodoItemViewDelegate: class {
 protocol TodoItemPresentable {
     var id: String? { get }
     var textValue: String? { get }
+    var isDone: Bool? { get set }
     var menuItems: [TodoMenuItemViewPresentable]? { get set }
 }
 
 class TodoItemViewModel: TodoItemPresentable {
     var id: String? = "0"
     var textValue: String?
+    var isDone: Bool? = false
     var menuItems: [TodoMenuItemViewPresentable]? = []
     weak var parent: TodoViewDelegate?
     
@@ -72,7 +74,7 @@ class TodoItemViewModel: TodoItemPresentable {
         removeMenuItem.backColor = "ff0000"
         
         let doneMenuItem = DoneMenuItemViewModel(parentViewModel: self)
-        doneMenuItem.title = "Done"
+        doneMenuItem.title = isDone! ? "Undone" : "Done"
         doneMenuItem.backColor = "000000"
         menuItems?.append(contentsOf: [removeMenuItem, doneMenuItem])
     }
@@ -107,6 +109,21 @@ class TodoViewModel: TodoViewPresentable {
 extension TodoViewModel: TodoViewDelegate {
     func onTodoDoneItem(todoId: String) {
         print("Todo item done with id = \(todoId)")
+        guard let index = self.items.index(where: { $0.id! == todoId }) else {
+            print("item for the index does not exist")
+            return
+        }
+        
+        var todoItem = self.items[index]
+        let nextStatus = !(todoItem.isDone)!
+        todoItem.isDone = nextStatus
+        if var doneMenuItem = todoItem.menuItems?.filter({ (todoMenuItem) -> Bool in
+            todoMenuItem is DoneMenuItemViewModel
+        }).first {
+            doneMenuItem.title = nextStatus ? "Undone" : "Done"
+        }
+        
+        self.view?.updateTodoItem(at: index)
     }
     
     func onAddTodoItem() {
