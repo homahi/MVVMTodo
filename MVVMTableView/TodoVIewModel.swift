@@ -95,12 +95,10 @@ protocol TodoViewPresentable {
 
 
 class TodoViewModel: TodoViewPresentable {
-    weak var view: TodoView?
     var newTodoValue: String?
     var items: Variable<[TodoItemPresentable]> = Variable([])
     
-    init(view: TodoView) {
-        self.view = view
+    init() {
         let item1 = TodoItemViewModel(id: "1", textValue: "Washing Clothes", parentViewModel:self)
         let item2 = TodoItemViewModel(id: "2", textValue: "Buy Groceries", parentViewModel:self)
         let item3 = TodoItemViewModel(id: "3", textValue: "Wash Car", parentViewModel:self)
@@ -136,7 +134,6 @@ extension TodoViewModel: TodoViewDelegate {
         })
 
         
-        self.view?.reloadItems()
     }
     
     func onAddTodoItem() {
@@ -152,8 +149,6 @@ extension TodoViewModel: TodoViewDelegate {
         self.items.value.append(newItem)
         
         self.newTodoValue = ""
-        
-        self.view?.insertTodoItem()
     }
     
     func onTodoDeleteItem (todoId: String) {
@@ -163,7 +158,6 @@ extension TodoViewModel: TodoViewDelegate {
         }
         self.items.value.remove(at: index)
         
-        self.view?.removeTodoItem(at: index)
     }
 }
 
