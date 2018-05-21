@@ -6,6 +6,8 @@
 //  Copyright © 2018年 原野誉大. All rights reserved.
 //
 
+import RxSwift
+
 protocol TodoMenuItemViewPresentable {
     var title: String? { get set }
     var backColor: String? { get }
@@ -95,26 +97,26 @@ protocol TodoViewPresentable {
 class TodoViewModel: TodoViewPresentable {
     weak var view: TodoView?
     var newTodoValue: String?
-    var items: [TodoItemPresentable] = []
+    var items: Variable<[TodoItemPresentable]> = Variable([])
     
     init(view: TodoView) {
         self.view = view
         let item1 = TodoItemViewModel(id: "1", textValue: "Washing Clothes", parentViewModel:self)
         let item2 = TodoItemViewModel(id: "2", textValue: "Buy Groceries", parentViewModel:self)
         let item3 = TodoItemViewModel(id: "3", textValue: "Wash Car", parentViewModel:self)
-        items.append(contentsOf: [item1, item2, item3])
+        items.value.append(contentsOf: [item1, item2, item3])
     }
 }
 
 extension TodoViewModel: TodoViewDelegate {
     func onTodoDoneItem(todoId: String) {
         print("Todo item done with id = \(todoId)")
-        guard let index = self.items.index(where: { $0.id! == todoId }) else {
+        guard let index = self.items.value.index(where: { $0.id! == todoId }) else {
             print("item for the index does not exist")
             return
         }
         
-        var todoItem = self.items[index]
+        var todoItem = self.items.value[index]
         let nextStatus = !(todoItem.isDone)!
         todoItem.isDone = nextStatus
         if var doneMenuItem = todoItem.menuItems?.filter({ (todoMenuItem) -> Bool in
@@ -123,7 +125,7 @@ extension TodoViewModel: TodoViewDelegate {
             doneMenuItem.title = nextStatus ? "Undone" : "Done"
         }
         
-        self.items.sort(by: {
+        self.items.value.sort(by: {
             if !($0.isDone!) && !($1.isDone!) {
                 return $0.id! < $01.id!
             }
@@ -144,10 +146,10 @@ extension TodoViewModel: TodoViewDelegate {
         }
         print("New todo value received in view model: \(newValue)")
         
-        let itemIndex = items.count + 1
+        let itemIndex = items.value.count + 1
         
         let newItem = TodoItemViewModel(id: "\(itemIndex)", textValue: newValue, parentViewModel: self)
-        self.items.append(newItem)
+        self.items.value.append(newItem)
         
         self.newTodoValue = ""
         
@@ -155,11 +157,11 @@ extension TodoViewModel: TodoViewDelegate {
     }
     
     func onTodoDeleteItem (todoId: String) {
-        guard let index = self.items.index(where: { $0.id! == todoId }) else {
+        guard let index = self.items.value.index(where: { $0.id! == todoId }) else {
             print("item for the index does not exist")
             return
         }
-        self.items.remove(at: index)
+        self.items.value.remove(at: index)
         
         self.view?.removeTodoItem(at: index)
     }

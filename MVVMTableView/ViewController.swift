@@ -56,13 +56,13 @@ extension ViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel?.items.count ?? 0
+        return viewModel?.items.value.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: identifier, for: indexPath)
         if let casted = cell as? TodoItemTableViewCell, let vm = self.viewModel {
-            casted.configure(with: vm.items[indexPath.row])
+            casted.configure(with: vm.items.value[indexPath.row])
         }
         
         return cell
@@ -71,7 +71,7 @@ extension ViewController: UITableViewDataSource {
 
 extension ViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let itemViewModel = viewModel?.items[indexPath.row]
+        let itemViewModel = viewModel?.items.value[indexPath.row]
         (itemViewModel as? TodoItemViewDelegate)?.onItemSelected()
     }
     
@@ -79,7 +79,7 @@ extension ViewController: UITableViewDelegate {
         
         var menuActions: [UIContextualAction] = []
         
-        let itemViewModel = viewModel?.items[indexPath.row]
+        let itemViewModel = viewModel?.items.value[indexPath.row]
         
         _ = itemViewModel?.menuItems?.map( { item in
             let menuAction = UIContextualAction(style: .normal, title: item.title!) { (action, sourceView, success: (Bool) -> (Void)) in
@@ -105,7 +105,7 @@ extension ViewController: UITableViewDelegate {
 
 extension ViewController: TodoView {
     func insertTodoItem() {
-        guard let items = viewModel?.items else {
+        guard let items = viewModel?.items.value else {
             print("Items object is empty")
             return
         }
