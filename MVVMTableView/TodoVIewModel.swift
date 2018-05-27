@@ -108,6 +108,14 @@ class TodoViewModel: TodoViewPresentable {
         notificationToken = todoItemResults?.observe({ [weak self] (changes: RealmCollectionChange) in
             switch(changes) {
             case .initial:
+                todoItemResults?.forEach({ (todoItemEntity) in
+                    let todoItemEntity = todoItemEntity
+                    let itemIndex = todoItemEntity.todoId
+                    let newValue = todoItemEntity.todoValue
+                    let newItem = TodoItemViewModel(id: "\(itemIndex)", textValue: newValue, parentViewModel: self!)
+                    self?.items.value.append(newItem)
+                    
+                })
                 break
             case .update(_, let deletions, let insertions, let modifications):
 
