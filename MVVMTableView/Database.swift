@@ -50,7 +50,15 @@ class Database {
                 realm.delete(todoItemEntity)
             }
         }
+    }
+    
+    func isDone(primaryKey: Int) -> (Void) {
+        let realm = try! Realm()
         
-
+        if let todoItemEntity = realm.object(ofType: TodoItem.self, forPrimaryKey: primaryKey) {
+            try! realm.write {
+                realm.delete(todoItemEntity)
+            }
+        }
     }
 }

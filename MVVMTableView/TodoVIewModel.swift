@@ -129,6 +129,26 @@ class TodoViewModel: TodoViewPresentable {
                     self?.newTodoValue = ""
                 })
                 
+                modifications.forEach({ (index) in
+                    
+                    let todoItemEntity = todoItemResults![index]
+                    
+                    guard let index = self?.items.value.index(where: { Int($0.id!) == todoItemEntity.todoId }) else {
+                        print("item for the index does not exist")
+                        return
+                    }
+                    
+                    var todoItemVm = self?.items.value[index]
+
+                    todoItemVm?.isDone = todoItemEntity.isDone
+                    
+                    if var doneMenuItem = todoItemVm?.menuItems?.filter({ (todoMenuItem) -> Bool in
+                        todoMenuItem is DoneMenuItemViewModel
+                    }).first {
+                        doneMenuItem.title = todoItemEntity.isDone ? "Undone" : "Done"
+                    }
+                })
+                
             case .error(let error):
                 break
             }
@@ -157,18 +177,7 @@ extension TodoViewModel: TodoViewDelegate {
             return
         }
         
-        var todoItem = self.items.value[index]
-        let nextStatus = !(todoItem.isDone)!
-        todoItem.isDone = nextStatus
-        if var doneMenuItem = todoItem.menuItems?.filter({ (todoMenuItem) -> Bool in
-            todoMenuItem is DoneMenuItemViewModel
-        }).first {
-            doneMenuItem.title = nextStatus ? "Undone" : "Done"
-        }
-        
-        
-
-        
+        database?.isDone(primaryKey: Int(todoId)!)
     }
     
     func onAddTodoItem() {
