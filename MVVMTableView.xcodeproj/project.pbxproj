@@ -20,6 +20,8 @@
 		969FC36120AE3FE900EAC0F0 /* TodoItemTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 969FC35F20AE3FE900EAC0F0 /* TodoItemTableViewCell.swift */; };
 		969FC36220AE3FE900EAC0F0 /* TodoItemTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 969FC36020AE3FE900EAC0F0 /* TodoItemTableViewCell.xib */; };
 		969FC36520B228D000EAC0F0 /* Strint+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 969FC36420B228D000EAC0F0 /* Strint+Extensions.swift */; };
+		969FC36720B37B2200EAC0F0 /* Database.swift in Sources */ = {isa = PBXBuildFile; fileRef = 969FC36620B37B2200EAC0F0 /* Database.swift */; };
+		969FC36920B37BD600EAC0F0 /* TodoItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 969FC36820B37BD600EAC0F0 /* TodoItem.swift */; };
 		97EC1E0B614DBECE1BD15FD7 /* Pods_MVVMTableViewTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 76AB275FBF329854C82FC6D7 /* Pods_MVVMTableViewTests.framework */; };
 /* End PBXBuildFile section */
 
@@ -63,6 +65,8 @@
 		969FC35F20AE3FE900EAC0F0 /* TodoItemTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoItemTableViewCell.swift; sourceTree = "<group>"; };
 		969FC36020AE3FE900EAC0F0 /* TodoItemTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TodoItemTableViewCell.xib; sourceTree = "<group>"; };
 		969FC36420B228D000EAC0F0 /* Strint+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Strint+Extensions.swift"; sourceTree = "<group>"; };
+		969FC36620B37B2200EAC0F0 /* Database.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Database.swift; sourceTree = "<group>"; };
+		969FC36820B37BD600EAC0F0 /* TodoItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoItem.swift; sourceTree = "<group>"; };
 		BC3A4D715E1E046A34B78E82 /* Pods_MVVMTableViewUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MVVMTableViewUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CB5C5254677ACFDCF4C98720 /* Pods-MVVMTableViewTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MVVMTableViewTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-MVVMTableViewTests/Pods-MVVMTableViewTests.release.xcconfig"; sourceTree = "<group>"; };
 		CFCFCAB83BB6470EAD8FF9AE /* Pods-MVVMTableViewUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MVVMTableViewUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-MVVMTableViewUITests/Pods-MVVMTableViewUITests.release.xcconfig"; sourceTree = "<group>"; };
@@ -155,6 +159,8 @@
 				969FC35D20AE3DBE00EAC0F0 /* TodoVIewModel.swift */,
 				969FC35F20AE3FE900EAC0F0 /* TodoItemTableViewCell.swift */,
 				969FC36020AE3FE900EAC0F0 /* TodoItemTableViewCell.xib */,
+				969FC36620B37B2200EAC0F0 /* Database.swift */,
+				969FC36820B37BD600EAC0F0 /* TodoItem.swift */,
 			);
 			path = MVVMTableView;
 			sourceTree = "<group>";
@@ -365,11 +371,15 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-MVVMTableView/Pods-MVVMTableView-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Realm/Realm.framework",
+				"${BUILT_PRODUCTS_DIR}/RealmSwift/RealmSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/RxCocoa/RxCocoa.framework",
 				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Realm.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RealmSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxCocoa.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
 			);
@@ -478,6 +488,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				969FC36920B37BD600EAC0F0 /* TodoItem.swift in Sources */,
+				969FC36720B37B2200EAC0F0 /* Database.swift in Sources */,
 				969FC36520B228D000EAC0F0 /* Strint+Extensions.swift in Sources */,
 				969FC33220AE3AFF00EAC0F0 /* ViewController.swift in Sources */,
 				969FC33020AE3AFF00EAC0F0 /* AppDelegate.swift in Sources */,
@@ -658,7 +670,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = MVVMTableView/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.google.homahi0128.MVVMTableView;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -673,7 +688,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = MVVMTableView/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.google.homahi0128.MVVMTableView;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -689,7 +707,11 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = MVVMTableViewTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.google.homahi0128.MVVMTableViewTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -706,7 +728,11 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = MVVMTableViewTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.google.homahi0128.MVVMTableViewTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -722,7 +748,11 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = MVVMTableViewUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.google.homahi0128.MVVMTableViewUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -738,7 +768,11 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = MVVMTableViewUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.google.homahi0128.MVVMTableViewUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;

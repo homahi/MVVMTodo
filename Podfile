@@ -8,6 +8,7 @@ target 'MVVMTableView' do
   # Pods for MVVMTableView
   pod 'RxSwift'
   pod 'RxCocoa'
+  pod 'RealmSwift'
 
   target 'MVVMTableViewTests' do
     inherit! :search_paths

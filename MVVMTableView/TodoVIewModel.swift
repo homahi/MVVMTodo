@@ -93,16 +93,51 @@ protocol TodoViewPresentable {
     var newTodoValue: String? { get }
 }
 
+import RealmSwift
 
 class TodoViewModel: TodoViewPresentable {
     var newTodoValue: String?
     var items: Variable<[TodoItemPresentable]> = Variable([])
+    var database: Database?
+    var notificationToken: NotificationToken? = nil
     
     init() {
-        let item1 = TodoItemViewModel(id: "1", textValue: "Washing Clothes", parentViewModel:self)
-        let item2 = TodoItemViewModel(id: "2", textValue: "Buy Groceries", parentViewModel:self)
-        let item3 = TodoItemViewModel(id: "3", textValue: "Wash Car", parentViewModel:self)
-        items.value.append(contentsOf: [item1, item2, item3])
+        database = Database.singletone
+        let todoItemResults = database?.fetch()
+        
+        notificationToken = todoItemResults?.observe({ [weak self] (changes: RealmCollectionChange) in
+            switch(changes) {
+            case .initial:
+                break
+            case .update(_, let deletions, let insertions, let modifications):
+
+                insertions.forEach({ (index) in
+                    let todoItemEntity = todoItemResults![index]
+                    let itemIndex = todoItemEntity.todoId
+                    let newValue = todoItemEntity.todoValue
+                    let newItem = TodoItemViewModel(id: "\(itemIndex)", textValue: newValue, parentViewModel: self!)
+                    self?.items.value.append(newItem)
+                    
+                    self?.newTodoValue = ""
+                })
+                
+            case .error(let error):
+                break
+            }
+            self?.items.value.sort(by: {
+                if !($0.isDone!) && !($1.isDone!) {
+                    return $0.id! < $01.id!
+                }
+                if $0.isDone! && $1.isDone! {
+                    return $0.id! < $01.id!
+                }
+                return !($0.isDone!) && $1.isDone!
+            })
+        })
+    }
+    
+    deinit {
+        notificationToken?.invalidate()
     }
 }
 
@@ -123,32 +158,22 @@ extension TodoViewModel: TodoViewDelegate {
             doneMenuItem.title = nextStatus ? "Undone" : "Done"
         }
         
-        self.items.value.sort(by: {
-            if !($0.isDone!) && !($1.isDone!) {
-                return $0.id! < $01.id!
-            }
-            if $0.isDone! && $1.isDone! {
-                return $0.id! < $01.id!
-            }
-            return !($0.isDone!) && $1.isDone!
-        })
+        
 
         
     }
     
     func onAddTodoItem() {
+        
         guard let newValue = newTodoValue else {
             print("New value is empty")
             return
         }
         print("New todo value received in view model: \(newValue)")
         
-        let itemIndex = items.value.count + 1
-        
-        let newItem = TodoItemViewModel(id: "\(itemIndex)", textValue: newValue, parentViewModel: self)
-        self.items.value.append(newItem)
-        
+        database?.creteOrUpdate(todoItemValue: newValue)
         self.newTodoValue = ""
+        
     }
     
     func onTodoDeleteItem (todoId: String) {
