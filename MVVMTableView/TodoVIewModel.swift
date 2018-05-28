@@ -133,20 +133,28 @@ class TodoViewModel: TodoViewPresentable {
                     
                     let todoItemEntity = todoItemResults![index]
                     
+
                     guard let index = self?.items.value.index(where: { Int($0.id!) == todoItemEntity.todoId }) else {
                         print("item for the index does not exist")
                         return
                     }
                     
-                    var todoItemVm = self?.items.value[index]
-
-                    todoItemVm?.isDone = todoItemEntity.isDone
-                    
-                    if var doneMenuItem = todoItemVm?.menuItems?.filter({ (todoMenuItem) -> Bool in
-                        todoMenuItem is DoneMenuItemViewModel
-                    }).first {
-                        doneMenuItem.title = todoItemEntity.isDone ? "Undone" : "Done"
+                    if todoItemEntity.deletedAt != nil {
+                        self?.items.value.remove(at: index)
+                        self?.database?.delete(primaryKey: todoItemEntity.todoId)
+                    } else {
+                        var todoItemVm = self?.items.value[index]
+                        
+                        todoItemVm?.isDone = todoItemEntity.isDone
+                        
+                        if var doneMenuItem = todoItemVm?.menuItems?.filter({ (todoMenuItem) -> Bool in
+                            todoMenuItem is DoneMenuItemViewModel
+                        }).first {
+                            doneMenuItem.title = todoItemEntity.isDone ? "Undone" : "Done"
+                        }
+                        
                     }
+                    
                 })
                 
             case .error(let error):
@@ -172,11 +180,6 @@ class TodoViewModel: TodoViewPresentable {
 extension TodoViewModel: TodoViewDelegate {
     func onTodoDoneItem(todoId: String) {
         print("Todo item done with id = \(todoId)")
-        guard let index = self.items.value.index(where: { $0.id! == todoId }) else {
-            print("item for the index does not exist")
-            return
-        }
-        
         database?.isDone(primaryKey: Int(todoId)!)
     }
     
@@ -194,12 +197,7 @@ extension TodoViewModel: TodoViewDelegate {
     }
     
     func onTodoDeleteItem (todoId: String) {
-        guard let index = self.items.value.index(where: { $0.id! == todoId }) else {
-            print("item for the index does not exist")
-            return
-        }
-        self.items.value.remove(at: index)
-        
+        database?.softDelete(primaryKey: Int(todoId)!)
     }
 }
 

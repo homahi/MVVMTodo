@@ -57,7 +57,16 @@ class Database {
         
         if let todoItemEntity = realm.object(ofType: TodoItem.self, forPrimaryKey: primaryKey) {
             try! realm.write {
-                realm.delete(todoItemEntity)
+                todoItemEntity.isDone = !todoItemEntity.isDone
+            }
+        }
+    }
+    
+    func softDelete(primaryKey: Int) -> (Void) {
+        let realm = try! Realm()
+        if let todoItemEntity = realm.object(ofType: TodoItem.self, forPrimaryKey: primaryKey) {
+            try! realm.write {
+                todoItemEntity.deletedAt = Date()
             }
         }
     }
